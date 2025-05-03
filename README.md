@@ -6,7 +6,7 @@ A Python backend service that allows users to create meetings in their Google Ca
 
 - Python 3.11+
 - Docker and Docker Compose
-- Google Calendar API credentials (credentials.json)
+- Google Calendar API OAuth 2.0 credentials (credentials.json)
 
 ## Setup
 
@@ -15,17 +15,35 @@ A Python backend service that allows users to create meetings in their Google Ca
    - Go to the [Google Cloud Console](https://console.cloud.google.com/)
    - Create a new project or select an existing one
    - Enable the Google Calendar API
-   - Create OAuth 2.0 credentials
-   - Download the credentials and save them as `credentials.json` in the project root
+   - Create OAuth 2.0 credentials:
+     - Go to "APIs & Services" > "Credentials"
+     - Click "Create Credentials" > "OAuth client ID"
+     - Choose "Desktop app" as the application type
+     - Name it "Calendar Meeting Scheduler"
+     - Download the credentials and save them as `credentials.json` in the project root
 
 ## Running with Docker
 
-1. Build and start the container:
+1. First-time setup:
    ```bash
    docker-compose up --build
    ```
+   - The application will print an authorization URL
+   - Copy the URL and open it in your browser
+   - Sign in with your Google account
+   - Grant the requested permissions
+   - Copy the authorization code
+   - Set it as an environment variable:
+     ```bash
+     export AUTH_CODE="your_authorization_code"
+     ```
 
-2. The API will be available at `http://localhost:8000`
+2. Run the application:
+   ```bash
+   docker-compose up
+   ```
+
+3. The API will be available at `http://localhost:8000`
 
 ## Running Locally
 

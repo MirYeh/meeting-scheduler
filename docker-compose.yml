@@ -1,12 +1,13 @@
-version: '3.8'
-
 services:
   app:
     build: .
     ports:
       - "8000:8000"
     volumes:
-      - .:/app
+      - ./src:/app/src
+      - ./tests:/app/tests
+      - ./credentials.json:/app/credentials.json
+      - ./token.json:/app/token.json
     environment:
       - PYTHONPATH=/app
     command: uvicorn src.app.main:app --host 0.0.0.0 --port 8000 --reload 
