@@ -2,6 +2,10 @@
 
 A Python backend service that allows users to create meetings in their Google Calendar through an HTTP API.
 
+
+![meeting-scheduler-output](screenshots/meeting-scheduler-output.png)
+
+
 ## Prerequisites
 
 - Python 3.11+
@@ -73,37 +77,31 @@ A Python backend service that allows users to create meetings in their Google Ca
 ### Create Meeting
 `POST /meetings`
 
-Creates a new meeting in the Google Calendar.
+Creates a new meeting in the Google Calendar:
 
-Request body:
-```json
-{
-  "summary": "Meeting Title",
-  "description": "Meeting Description",
-  "start_time": "2024-01-01T10:00:00",
-  "end_time": "2024-01-01T11:00:00",
-  "attendees": ["attendee@example.com"],
-  "location": "Meeting Room",
-  "timezone": "UTC"
-}
+
+```shell
+curl --location 'http://localhost:8000/meetings' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "summary": "Scheduled with meeting-scheduler app",    
+    "description": "Testing scheduler",
+    "start_time": "2025-05-03T17:00:00+03:00",
+    "end_time": "2025-05-03T18:00:00+03:00",
+    "attendees": [
+        "example@gmail.com"
+    ],
+    "timezone": "Asia/Jerusalem"
+}'
 ```
 
-Response:
-```json
-{
-  "id": "event_id",
-  "htmlLink": "https://calendar.google.com/calendar/event?eid=...",
-  "summary": "Meeting Title",
-  "start": {
-    "dateTime": "2024-01-01T10:00:00",
-    "timeZone": "UTC"
-  },
-  "end": {
-    "dateTime": "2024-01-01T11:00:00",
-    "timeZone": "UTC"
-  }
-}
-```
+
+Example:
+
+![curl-example-create-meeting](screenshots/curl-example.png)
+
+
+
 
 ### Health Check
 `GET /health`
