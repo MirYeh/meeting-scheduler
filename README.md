@@ -63,22 +63,59 @@ A Python backend service that allows users to create meetings in their Google Ca
    uvicorn src.app.main:app --reload
    ```
 
+4. For local testing of calendar functionality:
+   ```bash
+   python run_local.py
+   ```
+
 ## API Endpoints
 
-- `POST /meetings`: Create a new meeting
-  ```json
-  {
-    "summary": "Meeting Title",
-    "description": "Meeting Description",
-    "start_time": "2024-01-01T10:00:00",
-    "end_time": "2024-01-01T11:00:00",
-    "attendees": ["attendee@example.com"],
-    "location": "Meeting Room",
-    "timezone": "UTC"
-  }
-  ```
+### Create Meeting
+`POST /meetings`
 
-- `GET /health`: Health check endpoint
+Creates a new meeting in the Google Calendar.
+
+Request body:
+```json
+{
+  "summary": "Meeting Title",
+  "description": "Meeting Description",
+  "start_time": "2024-01-01T10:00:00",
+  "end_time": "2024-01-01T11:00:00",
+  "attendees": ["attendee@example.com"],
+  "location": "Meeting Room",
+  "timezone": "UTC"
+}
+```
+
+Response:
+```json
+{
+  "id": "event_id",
+  "htmlLink": "https://calendar.google.com/calendar/event?eid=...",
+  "summary": "Meeting Title",
+  "start": {
+    "dateTime": "2024-01-01T10:00:00",
+    "timeZone": "UTC"
+  },
+  "end": {
+    "dateTime": "2024-01-01T11:00:00",
+    "timeZone": "UTC"
+  }
+}
+```
+
+### Health Check
+`GET /health`
+
+Returns the health status of the service.
+
+Response:
+```json
+{
+  "status": "healthy"
+}
+```
 
 ## Running Tests
 
@@ -93,13 +130,14 @@ The project structure:
 .
 ├── src/
 │   └── app/
-│       ├── main.py
-│       ├── models.py
-│       ├── calendar_service.py
-│       └── config.py
+│       ├── main.py          # FastAPI application
+│       ├── models.py        # Pydantic models
+│       ├── calendar_service.py  # Google Calendar integration
+│       └── config.py        # Configuration settings
 ├── tests/
-│   └── test_main.py
-├── requirements.txt
-├── Dockerfile
-└── docker-compose.yml
+│   └── test_main.py        # API endpoint tests
+├── run_local.py            # Local testing script
+├── requirements.txt        # Python dependencies
+├── Dockerfile             # Container configuration
+└── docker-compose.yml     # Docker services configuration
 ``` 

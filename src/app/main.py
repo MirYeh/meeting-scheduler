@@ -2,7 +2,6 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from .calendar_service import CalendarService
 from .models import MeetingRequest
-from .config import settings
 
 app = FastAPI(title="Google Calendar Meeting Scheduler")
 
@@ -21,7 +20,7 @@ calendar_service = CalendarService()
 async def create_meeting(meeting_request: MeetingRequest):
     try:
         meeting = await calendar_service.create_meeting(meeting_request)
-        return {"message": "Meeting created successfully", "meeting": meeting}
+        return meeting
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 

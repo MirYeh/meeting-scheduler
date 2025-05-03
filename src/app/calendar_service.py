@@ -2,12 +2,10 @@ from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 from googleapiclient.discovery import build
-from datetime import datetime
 import os
 import json
-import time
-import requests
-from typing import Dict, Any
+import pickle
+from typing import List, Dict, Any
 from .models import MeetingRequest
 
 class CalendarService:
